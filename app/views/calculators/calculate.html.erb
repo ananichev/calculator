@@ -1,0 +1,10 @@
+<div class="container">
+  <% if @operation == 'buy' %>
+    Чтобы купить <%= @amount %> <%= @currency %> вам нужно <%= @result %>
+  <% else %>
+    При продаже <%= @amount %> <%= @currency %> вы получите <%= @result %>
+  <% end %>
+  <br>
+  <br>
+  <%= link_to 'Вернуться назад', controller: :calculators, action: :index, url: @url %>
+</div>

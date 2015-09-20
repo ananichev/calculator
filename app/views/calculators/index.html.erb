@@ -1,0 +1,35 @@
+<div class="container">
+  <h1>Сегодня
+    <%= Time.now.strftime("%m/%d/%Y") %>
+  </h1>
+  Курс UAH в банке:
+  <ul class="currency">
+    <li>Покупк/Продажа</li>
+    <li><%= @sale %> / <%= @purchase %> рублей за 1 грн</li>
+  </ul>
+
+  Соответственно:
+  <ul>
+    <li>За 1000 гривен банк вам даст <%= @sale * 1000 %> рублей.</li>
+    <li>За 1000 рублей банк вам даст <%= (1000 / @purchase).round(3) %> гривен.</li>
+  </ul>
+
+  Или так:
+  <ul class="advises">
+    <li>Если вы хотите купить в банке (или еще где-то) <b>гривны за рубли</b> - вам дадут <%= (1 / @purchase).round(3) %> гривен за 1 принесенный рубль.</li>
+    <li>Если вы хотите продать банку (или кому-то еще) <b>грины и получить рубли</b> - вам за каждые ваши <%= (1 / @sale    ).round(3) %> гривен дадут 1 рубль.</li>
+    Из этого четко видно, что покупаете вы рубли по <%= (1 / @sale).round(3) %> за 1 руб., а продаете свои рубли по <%= (1 / @purchase).round(3) %> за 1 руб. Жизнь не справедливая штука!)
+  </ul>
+  <%= button_tag 'Нажми сюда, если хочешь что-то посчитать!', id: :calculate_button %>
+
+  <%= form_tag('/calculate', class: 'calculate-form', method: :post) do %>
+    <b>Калькулятор</b>
+    <ol>
+      <li>Вы хотите <%= select_tag 'operation', options_for_select({'купить' => :buy, 'продать' => :sale}, 'купить') %>
+      <%= select_tag 'currency', options_for_select({'гривну' => :grn, 'рубль' => :rub}, 'рубль') %></li>
+      <li>Сколько?  <%= text_field_tag :amount, nil, placeholder: 'Введи сюда сумму' %></li>
+      <%= hidden_field_tag :url, @url %>
+    </ol>
+    <%= submit_tag 'Расчитать' %>
+  <% end %>
+</div>
